@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.boek {
+  padding: 1em;
+  clear: left;
+}
+
+.boek__cover {
+  float: left;
+  padding-right: 3rem;
+  max-width: 300px;
+}
