@@ -17,3 +17,13 @@ body {
   padding-right: 3rem;
   max-width: 300px;
 }
+
+.boek__kop {
+  font-size: 24px;
+  color: royalblue;
+}
+
+.boek__prijs {
+  font-size: 20px;
+  color: royalblue;
+}
