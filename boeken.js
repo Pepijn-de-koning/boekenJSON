@@ -41,7 +41,7 @@ const boeken = {
       html += `<span class="boek__ean">${boek.ean} | </span>`
       html += `<span class="boek__taal">${boek.taal} | </span>`
       html += `<span class="boek__paginas">${boek.paginas} paginas<br></span>`
-      html += `<span class="boek__prijs">&euro; ${boek.prijs}</span>`
+      html += `<span class="boek__prijs">${boek.prijs.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}</span>`
       html += `</section>`;
     });
     uitvoer.innerHTML = html
