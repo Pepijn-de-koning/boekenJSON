@@ -26,6 +26,10 @@ const boeken = {
       html += `<section class="boek">`;
       html += `<img class="boek__cover" src="${boek.cover}">`;
       html += `<h3>${titel}</h3>`;
+      html += `<span class="boek__uitgave"> - uitgave: ${boek.uitgave}<br></span>`
+      html += `<span class="boek__ean"> - ean: ${boek.ean}<br></span>`
+      html += `<span class="boek__taal"> - Taal: ${boek.taal}<br></span>`
+      html += `<span class="boek__paginas"> - Paginas: ${boek.paginas} blz.<br></span>`
       html += `</section>`;
     });
     uitvoer.innerHTML = html
