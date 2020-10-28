@@ -13,10 +13,17 @@ xhr.send();
 
 const boeken = {
 
-  taalFilter: 'Nederlands',
+  taalFilter: ['Nederlands', 'Duits'],
 
   filteren( gegevens ) {
-    this.data = gegevens.filter( (bk) => {return bk.taal == this.taalFilter }  );
+    // this.data = gegevens.filter( (bk) => {return bk.taal == this.taalFilter }  );
+    this.data = gegevens.filter( (bk) => {
+      let bool = false;
+        this.taalFilter.forEach( (taal) => {
+          if( bk.taal == taal ) { bool = true}
+        } )
+      return bool
+    } )
   },
 
   uitvoeren() {
