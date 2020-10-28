@@ -1,6 +1,8 @@
 const uitvoer = document.getElementById('boeken');
 const xhr = new XMLHttpRequest();
 
+const taalKeuze = document.querySelectorAll('.besturing__cb-taal');
+
 xhr.onreadystatechange = () => {
   if(xhr.readyState == 4 && xhr.status ==200) {
     let resultaat = JSON.parse(xhr.responseText);
@@ -85,3 +87,15 @@ const boeken = {
     return maand;
   }
 }
+
+const pasFilterAan = () => {
+  let gecheckteTaalkeuze = [];
+  taalKeuze.forEach( cb => {
+    if (cb.checked) gecheckteTaalkeuze.push( cb.value);
+  })
+  boeken.taalFilter = gecheckteTaalkeuze;
+  boeken.filteren(JSON.parse(xhr.responseText));
+  boeken.uitvoeren();
+}
+
+taalKeuze.forEach( cb => cb.addEventListener('change', pasFilterAan) );
