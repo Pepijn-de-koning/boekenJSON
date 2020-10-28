@@ -4,7 +4,7 @@ const xhr = new XMLHttpRequest();
 xhr.onreadystatechange = () => {
   if(xhr.readyState == 4 && xhr.status ==200) {
     let resultaat = JSON.parse(xhr.responseText);
-    boeken.data = resultaat
+    boeken.filteren(resultaat)
     boeken.uitvoeren();
   }
 }
@@ -12,6 +12,12 @@ xhr.open('GET', 'boeken.json', true);
 xhr.send();
 
 const boeken = {
+
+  taalFilter: 'Nederlands',
+
+  filteren( gegevens ) {
+    this.data = gegevens.filter( (bk) => {return bk.taal == this.taalFilter }  );
+  },
 
   uitvoeren() {
     let html = "";
@@ -37,9 +43,9 @@ const boeken = {
       html += `<img  class="boek__cover" src="${boek.cover}">`;
       html += `<h3   class="boek__kop">${titel}</h3>`;
       html += `<p    class="boek__auteurs">${auteurs}</p>`;
-      html += `<span class="boek__uitgave">${this.datumOmzetten(boek.uitgave)}</span>`;
-      html += `<span class="boek__ean">${boek.ean}</span>`;
-      html += `<span class="boek__taal">${boek.taal}</span>`;
+      html += `<span class="boek__uitgave">${this.datumOmzetten(boek.uitgave)} | </span>`;
+      html += `<span class="boek__ean">${boek.ean} | </span>`;
+      html += `<span class="boek__taal">${boek.taal} | </span>`;
       html += `<span class="boek__paginas">${boek.paginas} paginas<br></span>`;
       html += `<span class="boek__prijs">${boek.prijs.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}</span>`;
       html += `</section>`;
