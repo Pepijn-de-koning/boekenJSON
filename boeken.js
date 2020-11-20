@@ -2,6 +2,7 @@ const uitvoer = document.getElementById('boeken');
 const xhr = new XMLHttpRequest();
 
 const taalKeuze = document.querySelectorAll('.besturing__cb-taal');
+const selectSort = document.querySelector('.besturing__select');
 
 xhr.onreadystatechange = () => {
   if(xhr.readyState == 4 && xhr.status ==200) {
@@ -110,4 +111,11 @@ const pasFilterAan = () => {
   boeken.uitvoeren();
 }
 
+const pasSortEigAan = () => {
+  boeken.es = selectSort.value;
+  boeken.uitvoeren();
+}
+
 taalKeuze.forEach( cb => cb.addEventListener('change', pasFilterAan) );
+
+selectSort.addEventListener('change', pasSortEigAan);
