@@ -31,3 +31,8 @@ body {
 .besturing__select--label {
   float: right;
 }
+
+.besturing__sorteren {
+  float: right;
+  text-align: right;
+}
