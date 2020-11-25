@@ -4,6 +4,8 @@ const xhr = new XMLHttpRequest();
 const taalKeuze = document.querySelectorAll('.besturing__cb-taal');
 const selectSort = document.querySelector('.besturing__select');
 
+const aantalInWinkelwagen = document.querySelector('.ww__aantal');
+
 xhr.onreadystatechange = () => {
   if(xhr.readyState == 4 && xhr.status ==200) {
     let resultaat = JSON.parse(xhr.responseText);
@@ -13,6 +15,12 @@ xhr.onreadystatechange = () => {
 }
 xhr.open('GET', 'boeken.json', true);
 xhr.send();
+
+const ww = {
+  bestelling: []
+}
+
+// ww.bestelling = JSON.parse(localStorage.wwBestelling);
 
 const boeken = {
 
@@ -72,10 +80,22 @@ const boeken = {
       html += `<span class="boek__taal">${boek.taal} | </span>`;
       html += `<span class="boek__paginas">${boek.paginas} paginas<br></span>`;
       html += `<div class="boek__prijs">${boek.prijs.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}
-               <a href="#" class="boek__bestel-knop" >bestellen</a></div>`;
+               <a href="#" class="boek__bestel-knop" date-role="${boek.ean}">bestellen</a></div>`;
       html += `</div></section>`;
     });
     uitvoer.innerHTML = html
+
+    document.querySelectorAll('.boek__bestel-knop').forEach( knop => {
+      knop.addEventListener('click', e => {
+        e.preventDefault();
+        let boekID = e.target.getAttribute('data-role');
+        console.log(boekID);
+        let gekliktBoek = this.data.filter( b => b.ean == boekID);
+        ww.bestelling.push(gekliktBoek[0]);
+        aantalInWinkelwagen.innerHTML = ww.bestelling.length;
+        localStorage.wwBestelling = JSON.stringify(ww.besteling);
+      })
+    });
   },
   datumOmzetten(datumString) {
     let datum = new Date(datumString);
