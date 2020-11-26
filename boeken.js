@@ -20,19 +20,49 @@ const ww = {
   bestelling: [],
 
   boekToevoegen(obj) {
+    let gevonden = this.bestelling.filter( b => b.ean == obj.ean );
+    if ( gevonden.length == 0) {
+      ww.bestelling.push(obj);
+    };
     ww.bestelling.push(obj);
     aantalInWinkelwagen.innerHTML = this.bestelling.length;
-  },
-
-  dataOpslaan() {
     localStorage.wwBestelling = JSON.stringify(this.bestelling);
   },
 
   dataOphalen() {
-    this.bestelling = JSON.parse(localStorage.wwBestelling);
+    if ( localStorage.wwBestelling ) {
+      this.bestelling = JSON.parse(localStorage.wwBestelling);
+    }
+    this.uitvoeren();
+  },
+
+  uitvoeren() {
+
+    let html = '<table>';
+    let totaal = 0;
+    this.bestelling.forEach( boek => {
+
+      let titel = "";
+      if (boek.voortitel) {
+        titel += boek.voortitel + " ";
+      }
+      titel += boek.titel;
+
+      html += '<tr>'
+      html += `<td><img src="${boek.cover}" alt="${titel}" class="bestelformulier__cover"><td>`;
+      html += `<td>${titel}</td>`;
+      html += `<td>${boek.prijs.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}</td>`;
+      html += '<tr>'
+      totaal += boek.prijs;
+    })
+    html += `<tr><td colspan="2">Totaal</td><td>${totaal.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}</td></tr>`;
+    html += '</table>';
+    document.getElementById('uitvoer').innerHTML = html;
     aantalInWinkelwagen.innerHTML = ww.bestelling.length;
   }
 }
+
+ww.dataOphalen();
 
 const boeken = {
 
@@ -65,6 +95,8 @@ const boeken = {
 
     let html = "";
     this.data.forEach(boek => {
+
+      boek.besteldAantal = 0;
 
       let titel = "";
       if (boek.voortitel) {
@@ -103,7 +135,7 @@ const boeken = {
         let boekID = e.target.getAttribute('data-role');
         console.log(boekID);
         let gekliktBoek = this.data.filter( b => b.ean == boekID);
-        ww.boekID = e.target.get
+        geKliktBoek[0].besteldAantal ++;
         ww.boekToevoegen(gekliktBoek[0]);
       })
     });

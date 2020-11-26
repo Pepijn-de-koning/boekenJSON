@@ -6,6 +6,7 @@
 body {
   font-family: sans-serif;
   overflow-x: hidden;
+  width: 100%;
 }
 
 .ww {
@@ -127,4 +128,8 @@ body {
   margin: 4vw 4vh;
   transform: translateX(100vw);
   transition: transform, .5s ease-out;
+}
+
+.bestelformulier__cover {
+  height: 3em;
 }
