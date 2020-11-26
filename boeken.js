@@ -135,7 +135,7 @@ const boeken = {
         let boekID = e.target.getAttribute('data-role');
         console.log(boekID);
         let gekliktBoek = this.data.filter( b => b.ean == boekID);
-        geKliktBoek[0].besteldAantal ++;
+        gekliktBoek[0].besteldAantal ++;
         ww.boekToevoegen(gekliktBoek[0]);
       })
     });
