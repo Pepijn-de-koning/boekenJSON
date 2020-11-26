@@ -5,6 +5,7 @@
 
 body {
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
 .ww {
@@ -12,6 +13,7 @@ body {
   float: right;
   right: 60px;
   top: 5px;
+  cursor: pointer;
 }
 
 .ww__div {
