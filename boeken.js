@@ -20,7 +20,8 @@ const ww = {
   bestelling: []
 }
 
-// ww.bestelling = JSON.parse(localStorage.wwBestelling);
+ww.bestelling = JSON.parse(localStorage.wwBestelling);
+aantalInWinkelwagen.innerHTML = ww.bestelling.length;
 
 const boeken = {
 
@@ -28,7 +29,7 @@ const boeken = {
   es: 'auteurs',
   oplopend: 1,
 
-  filteren( gegevens ) {
+  filteren( gegevens ) { 
     // this.data = gegevens.filter( (bk) => {return bk.taal == this.taalFilter }  );
     this.data = gegevens.filter( (bk) => {
       let bool = false;
@@ -80,7 +81,7 @@ const boeken = {
       html += `<span class="boek__taal">${boek.taal} | </span>`;
       html += `<span class="boek__paginas">${boek.paginas} paginas<br></span>`;
       html += `<div class="boek__prijs">${boek.prijs.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}
-               <a href="#" class="boek__bestel-knop" date-role="${boek.ean}">bestellen</a></div>`;
+               <a href="#" class="boek__bestel-knop" data-role="${boek.ean}">bestellen</a></div>`;
       html += `</div></section>`;
     });
     uitvoer.innerHTML = html
