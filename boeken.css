@@ -108,7 +108,7 @@ body {
 }
 
 #haalformulier {
-  display: none;
+  opacity: 0;
 }
 
 #haalformulier:checked ~ .bestelformulier {
@@ -132,4 +132,8 @@ body {
 
 .bestelformulier__cover {
   height: 3em;
+}
+
+.image {
+  width: 30px;
 }

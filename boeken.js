@@ -38,32 +38,75 @@ const ww = {
   },
 
   uitvoeren() {
-
-    let html = '<table>';
-    let totaal = 0;
-    let totaalBesteld = 0;
+  let html = '<table>';
+  let totaal = 0;
+  let totaalBesteld = 0;
     this.bestelling.forEach( boek => {
-
       let titel = "";
-      if (boek.voortitel) {
+      if ( boek.voortitel ) {
         titel += boek.voortitel + " ";
       }
       titel += boek.titel;
-
-      html += '<tr>'
-      html += `<td><img src="${boek.cover}" alt="${titel}" class="bestelformulier__cover"><td>`;
+      html += '<tr>';
+      html += `<td><img src="${boek.cover}" alt="${titel}" class="bestelformulier__cover"></td>`;
       html += `<td>${titel}</td>`;
-      html += `<td>${boek.besteldAantal}</td>`;
+      html += `<td class="bestelformulier__aantal">
+
+      <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2018/240/iconmonstr-arrow-down-thin.png" data-role="${boek.ean}" class="bestelformulier__verlaag image"/>
+      ${boek.besteldAantal}
+      <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2018/240/iconmonstr-arrow-up-thin.png" data-role="${boek.ean}" class="bestelformulier__verhoog image"/></td>`;
+
       html += `<td>${boek.prijs.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}</td>`;
-      html += '<tr>'
+      html += `<td><img src="https://cdn4.iconfinder.com/data/icons/complete-common-version-6-4/1024/trash-512.png" data-role="${boek.ean}" class="bestelformulier__trash image"/></td>`;
+      html += '</tr>';
+
       totaal += boek.prijs * boek.besteldAantal;
       totaalBesteld += boek.besteldAantal;
     })
-    html += `<tr><td colspan="4">Totaal</td><td>${totaal.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}</td></tr>`;
-    html += '</table>';
-    document.getElementById('uitvoer').innerHTML = html;
-    aantalInWinkelwagen.innerHTML = totaalBesteld;
-  }
+  html += `<tr><td colspan="3">Totaal</td><td>${totaal.toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'})}</td></tr>`;
+  html += '</table>';
+  document.getElementById('uitvoer').innerHTML = html;
+  aantalInWinkelwagen.innerHTML = totaalBesteld;
+  this.trashActiveren();
+  this.hogerLagerActiveren();
+},
+hogerLagerActiveren() {
+  let hogerKnoppen = document.querySelectorAll('.bestelformulier__verhoog');
+  hogerKnoppen.forEach(knop => {
+    knop.addEventListener('click', e => {
+      let ophoogID = e.target.getAttribute('data-role');
+      let opTeHogenBoek = this.bestelling.filter( boek => boek.ean == ophoogID);
+      opTeHogenBoek[0].besteldAantal ++;
+      localStorage.wwBestelling = JSON.stringify(this.bestelling);
+      this.uitvoeren();
+    })
+  })
+
+  let lagerKnoppen = document.querySelectorAll('.bestelformulier__verlaag');
+  lagerKnoppen.forEach(knop => {
+    knop.addEventListener('click', e => {
+      let verlaagID = e.target.getAttribute('data-role');
+      let teverlagenBoek = this.bestelling.filter( boek => boek.ean == verlaagID);
+      if ( teverlagenBoek[0].besteldAantal > 1 ) {
+        teverlagenBoek[0].besteldAantal --;
+      } else {
+        this.bestelling = this.bestelling.filter( bk => bk.ean != verlaagID );
+      }
+      localStorage.wwBestelling = JSON.stringify(this.bestelling);
+      this.uitvoeren();
+    })
+  })
+},
+trashActiveren() {
+  document.querySelectorAll('.bestelformulier__trash').forEach( trash => {
+    trash.addEventListener('click', e => {
+      let teVerwijderenBoekID = e.target.getAttribute('data-role');
+      this.bestelling = this.bestelling.filter( bk => bk.ean != teVerwijderenBoekID );
+      localStorage.wwBestelling = JSON.stringify(this.bestelling);
+      this.uitvoeren();
+    })
+  })
+}
 }
 
 ww.dataOphalen();
